@@ -9,19 +9,15 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    - name: Checkout repo
+    - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Accept Android SDK licenses
-      run: |
-        mkdir -p $HOME/.android
-        touch $HOME/.android/repositories.cfg
-        yes | sdkmanager --licenses || true
-
-    - name: Build APK with Buildozer
+    - name: Build APK with Buildozer (auto SDK install)
       uses: digreatbrian/buildozer-action@v2
       with:
-        command: buildozer android debug
+        command: |
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          buildozer android debug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
