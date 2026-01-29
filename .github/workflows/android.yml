@@ -12,6 +12,12 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
 
+    - name: Accept Android SDK licenses
+      run: |
+        mkdir -p $HOME/.android
+        touch $HOME/.android/repositories.cfg
+        yes | sdkmanager --licenses || true
+
     - name: Build APK with Buildozer
       uses: digreatbrian/buildozer-action@v2
       with:
